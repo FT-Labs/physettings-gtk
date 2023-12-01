@@ -13,6 +13,17 @@ func setupTextView(box *gtk.Box) *gtk.TextView {
 	return tv
 }
 
+func comboBoxNewWithLabel(s string, o gtk.Orientation) *gtk.Box {
+	lbl, _ := gtk.LabelNew(s)
+	box, _ := gtk.BoxNew(o, 10)
+	cbx, _ := gtk.ComboBoxNew()
+
+	box.Add(lbl)
+	box.Add(cbx)
+
+	return box
+}
+
 // func setupPropertyCheckboxes(tv *gtk.TextView, outer *gtk.Box, props []*BoolProperty) {
 // 	box, _ := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 0)
 // 	for _, prop := range props {
@@ -33,12 +44,14 @@ func setupAnimationsTab() *gtk.Box{
 
 	// tv := setupTextView(box)
 
-	chkGlx, _           := gtk.CheckButtonNewWithLabel("Use GLX:")
-	chkVsync, _         := gtk.CheckButtonNewWithLabel("Enable VSync:")
-	chkAnimations, _    := gtk.CheckButtonNewWithLabel("Enable Animations:")
-	chkFading, _        := gtk.CheckButtonNewWithLabel("Enable Fading:")
-	chkNextTagFading, _ := gtk.CheckButtonNewWithLabel("Next Tag Fading:")
-	chkPrevTagFading, _ := gtk.CheckButtonNewWithLabel("Prev Tag Fading:")
+	chkGlx, _           := gtk.CheckButtonNewWithLabel(": Use GLX")
+	chkVsync, _         := gtk.CheckButtonNewWithLabel(": Enable VSync")
+	chkAnimations, _    := gtk.CheckButtonNewWithLabel(": Enable Animations")
+	chkFading, _        := gtk.CheckButtonNewWithLabel(": Enable Fading")
+	chkNextTagFading, _ := gtk.CheckButtonNewWithLabel(": Next Tag Fading")
+	chkPrevTagFading, _ := gtk.CheckButtonNewWithLabel(": Prev Tag Fading")
+
+	cbx := comboBoxNewWithLabel("Hello", gtk.ORIENTATION_HORIZONTAL)
 
 	box.Add(chkGlx)
 	box.Add(chkVsync)
@@ -46,6 +59,7 @@ func setupAnimationsTab() *gtk.Box{
 	box.Add(chkFading)
 	box.Add(chkNextTagFading)
 	box.Add(chkPrevTagFading)
+	box.Add(cbx)
 
 	return box
 }
