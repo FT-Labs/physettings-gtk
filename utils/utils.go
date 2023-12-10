@@ -8,6 +8,8 @@ import (
 	"os/exec"
 	"strings"
 	"time"
+	"github.com/gotk3/gotk3/gtk"
+	"log"
 )
 
 const(
@@ -30,6 +32,7 @@ var RofiColors []string
 var PowerMenuTypes  []string
 var PowerMenuStyles []string
 var ScriptInfo map[string]string
+
 
 func appendAttribute(attribute string) error {
     cmd := fmt.Sprintf("echo %s >> %s", attribute, settingsPath)

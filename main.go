@@ -1,9 +1,9 @@
 package main
 
-
 import (
-	"github.com/gotk3/gotk3/gtk"
 	"log"
+	"github.com/gotk3/gotk3/gtk"
+	p "physettings/picom"
 )
 
 const (
@@ -12,18 +12,6 @@ const (
 	spacing	  = 25
 	logo_path = "/usr/share/pixmaps/phyOS-logo-128x128.png"
 )
-
-func boxNew(o gtk.Orientation, spc int) *gtk.Box {
-
-	box, err := gtk.BoxNew(o, spc)
-
-	if err != nil {
-		log.Fatal("Error: Can not create box", err)
-	}
-
-	return box
-}
-
 
 func imageNew(path string) *gtk.Image {
 
@@ -82,7 +70,7 @@ func main() {
 	nb.SetVExpand(true)
 
 	logo := imageNew(logo_path)
-	box := boxNew(gtk.ORIENTATION_VERTICAL, 15)
+	box, _ := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 15)
 	logo.SetHAlign(gtk.ALIGN_CENTER)
 	box.SetMarginStart(spacing)
 	box.SetMarginTop(spacing)
@@ -101,7 +89,7 @@ func main() {
 	nb.AppendPage(box, nbInfo)
 	nb.AppendPage(nbChild, nbOptions)
 
-	animationsBox := setupAnimationsTab()
+	animationsBox := p.SetupAnimationsTab()
 	nb.AppendPage(animationsBox, nbAnimations)
 
 	win.ShowAll()
