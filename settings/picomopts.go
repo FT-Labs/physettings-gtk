@@ -1,4 +1,4 @@
-package picom
+package settings
 
 import (
 	"fmt"
@@ -24,6 +24,7 @@ const (
     _vsync                          = "vsync"
 	_backend						= "backend"
 	_shadow							= "shadow"
+	_shadow_radius					= "shadow-radius"
 )
 
 var picomOpts = map[string]string {
@@ -39,6 +40,7 @@ var picomOpts = map[string]string {
     _enable_fading_prev_tag         : "false",
     _vsync                          : "false",
 	_shadow							: "false",
+	_shadow_radius					: "0",
 	_backend						: "glx",
 }
 
@@ -121,17 +123,7 @@ func readPicomOpts() {
     exec.Command("/bin/bash", "-c", cmd).Start()
     for key := range picomOpts {
         var cmd string
-        if key == _fading {
-            cmd = fmt.Sprintf("grep -w \"%s\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", "fading =", picomConfPath)
-        } else if key == _vsync {
-            cmd = fmt.Sprintf("grep -w \"%s\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", "vsync =", picomConfPath)
-        } else if key == _backend {
-            cmd = fmt.Sprintf("grep -w \"%s\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", "backend =", picomConfPath)
-		} else if key == _shadow {
-            cmd = fmt.Sprintf("grep -w \"^%s\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", "shadow =", picomConfPath)
-		} else {
-            cmd = fmt.Sprintf("grep -r \"%s\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", key, picomConfPath)
-        }
+		cmd = fmt.Sprintf("grep -Ew \"^%s[ =]+\" \"%s\" | cut -f1 -d \";\" | tr -d '\"\\n'", key, picomConfPath)
         out, err := exec.Command("/bin/bash", "-c", cmd).Output()
         if err != nil {
             fmt.Fprintf(os.Stderr, err.Error())

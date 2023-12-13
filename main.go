@@ -3,12 +3,12 @@ package main
 import (
 	"log"
 	"github.com/gotk3/gotk3/gtk"
-	p "physettings/picom"
+	p "physettings/settings"
 )
 
 const (
-	width     = 800
-	height    = 600
+	width     = 564
+	height    = 400
 	spacing	  = 25
 	logo_path = "/usr/share/pixmaps/phyOS-logo-128x128.png"
 )
@@ -66,7 +66,7 @@ func main() {
 	}
 	win := windowNew("phy")
 	win.Add(nb)
-		nb.SetHExpand(true)
+	nb.SetHExpand(true)
 	nb.SetVExpand(true)
 
 	logo := imageNew(logo_path)
@@ -78,18 +78,15 @@ func main() {
 
 
 	// Add a child widget and tab label to the notebook so it renders.
-	nbChild, err := gtk.LabelNew("Notebook content")
-	if err != nil {
-		log.Fatal("Unable to create button:", err)
-	}
 	nbInfo := labelNew("INFO")
 	nbOptions := labelNew("OPTIONS")
 	nbAnimations := labelNew("ANIMATIONS")
 	nb.SetTabPos(gtk.POS_BOTTOM)
 	nb.AppendPage(box, nbInfo)
-	nb.AppendPage(nbChild, nbOptions)
 
 	animationsBox := p.SetupAnimationsTab()
+	optionsBox := p.SetupOptionsTab()
+	nb.AppendPage(optionsBox, nbOptions)
 	nb.AppendPage(animationsBox, nbAnimations)
 
 	win.ShowAll()

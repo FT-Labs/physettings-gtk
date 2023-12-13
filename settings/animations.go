@@ -1,4 +1,4 @@
-package picom
+package settings
 
 import (
 	"log"
@@ -19,15 +19,6 @@ type ComboBoxLabel struct {
 type SpinButtonLabel struct {
 	Box        *gtk.Box
 	SpinButton *gtk.SpinButton
-}
-
-// Setup the TextView, put it in a ScrolledWindow, and add both to box.
-func setupTextView(box *gtk.Box) *gtk.TextView {
-	sw, _ := gtk.ScrolledWindowNew(nil, nil)
-	tv, _ := gtk.TextViewNew()
-	sw.Add(tv)
-	box.PackStart(sw, true, true, 0)
-	return tv
 }
 
 func comboBoxAddEntries(s []string, cbx *gtk.ComboBoxText) {
@@ -94,6 +85,10 @@ func SetupAnimationsTab() *gtk.Box{
 												gtk.ORIENTATION_HORIZONTAL,
 												30, 250, 1)
 	spnAnimSpeedOnTagChange.SpinButton.SetValue(stof(picomOpts[_animation_stiffness_tag_change]))
+	spnShadowRadius := spinButtonNewWithLabel("Shadow Radius:                           ",
+											  gtk.ORIENTATION_HORIZONTAL,
+											  5, 100, 1)
+	spnShadowRadius.SpinButton.SetValue(stof(picomOpts[_shadow_radius]))
 
 	cmbOpenWindowAnim := comboBoxNewWithLabel("Open Window Anim: ", gtk.ORIENTATION_HORIZONTAL)
 	comboBoxAddEntries(animOpenOpts, cmbOpenWindowAnim.ComboBox)
@@ -114,6 +109,7 @@ func SetupAnimationsTab() *gtk.Box{
 
 	boxRight.Add(spnAnimSpeedInTag.Box)
 	boxRight.Add(spnAnimSpeedOnTagChange.Box)
+	boxRight.Add(spnShadowRadius.Box)
 	boxRight.Add(cmbOpenWindowAnim.Box)
 	boxRight.Add(cmbCloseWindowAnim.Box)
 	boxRight.Add(cmbPrevTag.Box)
@@ -167,9 +163,11 @@ func SetupAnimationsTab() *gtk.Box{
 
 		picomOpts[_animation_stiffness_in_tag] = strconv.FormatFloat(spnAnimSpeedInTag.SpinButton.GetValue(), 'f', 1, 64)
 		picomOpts[_animation_stiffness_tag_change] = strconv.FormatFloat(spnAnimSpeedOnTagChange.SpinButton.GetValue(), 'f', 1, 64)
+		picomOpts[_shadow_radius] = strconv.FormatFloat(spnShadowRadius.SpinButton.GetValue(), 'f', 1, 64)
 
 		changePicomAttribute(_animation_stiffness_in_tag, picomOpts[_animation_stiffness_in_tag], false)
 		changePicomAttribute(_animation_stiffness_tag_change, picomOpts[_animation_stiffness_tag_change], false)
+		changePicomAttribute(_shadow_radius, picomOpts[_shadow_radius], false)
 
 
 		err := savePicomOpts()

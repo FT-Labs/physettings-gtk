@@ -4,12 +4,11 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
 	"time"
-	"github.com/gotk3/gotk3/gtk"
-	"log"
 )
 
 const(
@@ -17,8 +16,6 @@ const(
     POWERMENU_TYPE        = "POWERMENU_TYPE"
     POWERMENU_STYLE       = "POWERMENU_STYLE"
     POWERMENU_CONFIRM     = "POWERMENU_CONFIRM"
-
-    PICOM_EXPERIMENTAL    = "PICOM_EXPERIMENTAL"
 
     POS_MAKE_BAR          = "pOS-make-bar"
     POS_GRUB_CHOOSE_THEME = "pOS-grub-choose-theme"
@@ -133,6 +130,14 @@ func RunScript(c string) error {
     return nil
 }
 
+func RunCommand(c string) error {
+	err := exec.Command("/bin/bash", "-c", c).Start()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func FetchAttributes() {
     Attrs = make(map[string]string)
     home, err := os.UserHomeDir()
@@ -143,10 +148,6 @@ func FetchAttributes() {
     settingsPath = fmt.Sprintf("%s/.config/phyos/phyos.conf", home)
     settingsDefaultPath := fmt.Sprintf("%s/.config/phyos/phyos.conf.default", home)
     f, err := os.Open(settingsPath)
-
-    if err != nil {
-        panic("Can't open user settings file")
-    }
 
     sc := bufio.NewScanner(f)
 
@@ -163,7 +164,7 @@ func FetchAttributes() {
         }
     }
     if err := sc.Err(); err != nil {
-        panic(err)
+		log.Fatal("File could not be found")
     }
     f.Close()
     f, err = os.Open(settingsDefaultPath)
