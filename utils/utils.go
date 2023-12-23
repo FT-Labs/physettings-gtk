@@ -116,7 +116,7 @@ func SetAttribute(attribute, value string) error {
 
 func SetRofiColor(c string) {
     cmd := fmt.Sprintf("ln -sf /usr/share/phyos/config/rofi/colors/%s.rasi ~/.config/rofi/colors.rasi", c)
-    exec.Command("/bin/bash", "-c", cmd).Start()
+    exec.Command("/bin/bash", "-c", cmd).Run()
 }
 
 func RunScript(c string) error {

@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"github.com/gotk3/gotk3/gtk"
-	p "physettings/settings"
+	p "github.com/physettings-gtk/settings"
 )
 
 const (
@@ -11,6 +11,11 @@ const (
 	height    = 400
 	spacing	  = 25
 	logo_path = "/usr/share/pixmaps/phyOS-logo-128x128.png"
+
+	info_message = `OPTIONS Tab: Customize themes, wallpaper and more
+ANIMATIONS Tab: Set up animations and picom related options
+Check out 'man phyos' for available scripts
+`
 )
 
 func imageNew(path string) *gtk.Image {
@@ -64,7 +69,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Unable to create notebook:", err)
 	}
-	win := windowNew("phy")
+	win := windowNew("physettings")
 	win.Add(nb)
 	nb.SetHExpand(true)
 	nb.SetVExpand(true)
@@ -72,9 +77,16 @@ func main() {
 	logo := imageNew(logo_path)
 	box, _ := gtk.BoxNew(gtk.ORIENTATION_VERTICAL, 15)
 	logo.SetHAlign(gtk.ALIGN_CENTER)
+
+	lblTitle, _ := gtk.LabelNew("")
+	lblTitle.SetMarginBottom(50)
+	lblTitle.SetMarkup("<span foreground=\"#89CFF0\" size=\"xx-large\">phyOS Settings App</span>")
+	lblInfo, _ := gtk.LabelNew(info_message)
 	box.SetMarginStart(spacing)
 	box.SetMarginTop(spacing)
 	box.Add(logo)
+	box.Add(lblTitle)
+	box.Add(lblInfo)
 
 
 	// Add a child widget and tab label to the notebook so it renders.

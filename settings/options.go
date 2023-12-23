@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os/exec"
-	u "physettings/utils"
+	u "github.com/FT-Labs/physettings-gtk/utils"
 
 	"github.com/gotk3/gotk3/gtk"
 )
@@ -52,8 +52,16 @@ func SetupOptionsTab() *gtk.Box {
 	comboBoxAddEntries(u.PowerMenuTypes, cbPowermenuType.ComboBox)
 	comboBoxAddEntries(u.PowerMenuStyles, cbPowermenuStyle.ComboBox)
 
-	cbRofiColor.ComboBox.Connect("popdown", func() {
+	cbRofiColor.ComboBox.Connect("changed", func() {
 		u.SetRofiColor(cbRofiColor.ComboBox.GetActiveText())
+	})
+
+	cbPowermenuType.ComboBox.Connect("changed", func() {
+		u.SetAttribute(u.POWERMENU_TYPE, cbPowermenuType.ComboBox.GetActiveText())
+	})
+
+	cbPowermenuStyle.ComboBox.Connect("changed", func() {
+		u.SetAttribute(u.POWERMENU_STYLE, cbPowermenuStyle.ComboBox.GetActiveText())
 	})
 
 	chkAsk, _ := gtk.CheckButtonNewWithLabel("Confirm on Shutdown")
