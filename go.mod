@@ -1,4 +1,4 @@
-module physettings
+module github.com/FT-Labs/physettings
 
 go 1.21.3
 

@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 	"github.com/gotk3/gotk3/gtk"
-	p "github.com/physettings-gtk/settings"
+	p "github.com/FT-Labs/physettings-gtk/settings"
 )
 
 const (
