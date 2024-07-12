@@ -20,6 +20,7 @@ build: $(SRC)
 
 deps: $(SRC)
 	${GOCMD} get github.com/gotk3/gotk3@latest
+	${GOCMD} get -u github.com/gotk3/gotk3@master
 
 clean:
 	rm -f ${PROG}
